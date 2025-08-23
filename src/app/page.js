@@ -1,95 +1,62 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { products } from "@/data/products";
+import SidebarFilters from "@/components/SidebarFilters";
+import ProductGrid from "@/components/ProductGrid";
 
-export default function Home() {
+export default async function Home({ searchParams }) {
+  const params = await searchParams;
+  
+  const categoryFilter = params?.category || null;
+  const priceFilter = params?.price || null;
+  const categoryFilter2 = params?.category2 || null;
+  const priceFilter2 = params?.price2 || null;
+  const searchQuery = params?.q?.toLowerCase() || null;
+
+  const filteredProducts = products.filter((product) => {
+
+    const isCategoryMatch =
+      !categoryFilter || categoryFilter === "All" ||
+      product.category.toLowerCase() === categoryFilter.toLowerCase();
+
+    const isPriceMatch =
+      !priceFilter || product.price <= parseInt(priceFilter);
+
+    const isCategoryMatch2 =
+      !categoryFilter2 || categoryFilter2 === "All" ||
+      product.category.toLowerCase() === categoryFilter2.toLowerCase();
+
+    const isPriceMatch2 =
+      !priceFilter2 || product.price <= parseInt(priceFilter2);
+
+    const isSearchMatch =
+      !searchQuery ||
+      product.title.toLowerCase().includes(searchQuery) ||
+      product.description.toLowerCase().includes(searchQuery);
+
+    return isCategoryMatch && isPriceMatch && 
+           isCategoryMatch2 && isPriceMatch2 && 
+           isSearchMatch;
+  });
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="flex container mx-auto px-4 py-6">
+      <aside className="w-1/4 pr-4 hidden md:block">
+        <SidebarFilters />
+      </aside>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <section className="flex-1">
+        <h1 className="text-2xl font-bold mb-4 text-blue-950">
+          Product Listing
+          {searchQuery && ` - Search: "${searchQuery}"`}
+          {categoryFilter && categoryFilter !== "All" && ` - Category: ${categoryFilter}`}
+          {priceFilter && ` - Max Price: $${priceFilter}`}
+          {categoryFilter2 && categoryFilter2 !== "All" && ` - Category: ${categoryFilter2}`}
+          {priceFilter2 && ` - Max Price: $${priceFilter2}`}
+        </h1>
+        <p className="mb-4 text-gray-600">
+          Showing {filteredProducts.length} of {products.length} products
+        </p>
+        <ProductGrid products={filteredProducts} />
+      </section>
     </div>
   );
 }
