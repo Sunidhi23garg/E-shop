@@ -6,8 +6,6 @@ Deployed live on **Vercel**
 ## Live Demo
 👉 [https://e-shop-henna-phi.vercel.app](https://e-shop-henna-phi.vercel.app)
 
----
-
 ## Features
 - Product listing with categories & filters  
 - Search bar in header  
@@ -15,14 +13,10 @@ Deployed live on **Vercel**
 - Cart management  
 - Clean UI with Tailwind CSS  
 
----
-
 ## Installation & Setup
 
 Clone the repository:
 ```bash
-git clone https://github.com/your-username/e-shop.git
-cd e-shop
 npm install
 npm run dev
 ```
@@ -30,6 +24,7 @@ npm run dev
 ## Deployment
 
 This project is deployed on Vercel.
+Live URL: 👉 https://e-shop-henna-phi.vercel.app
 
 ### Author
 Sunidhi Garg
