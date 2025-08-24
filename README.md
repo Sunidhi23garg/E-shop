@@ -24,7 +24,7 @@ A modern, responsive e-commerce web application built with Next.js, featuring pr
 Clone the repository:
 ```bash
 https://github.com/Sunidhi23garg/E-shop.git
-cd E.shop
+cd E-shop
 ```
 
 Install Dependencies:
@@ -45,7 +45,7 @@ npm run dev
 
 ## Deployment
 
-This project is deployed on Vercel.
+This project is deployed on Vercel.  
 Live URL: 👉 https://e-shop-henna-phi.vercel.app
 
 ### Author
